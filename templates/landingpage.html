@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+<title>Medical Portal</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center" >
+        <h1 class="my-5">Medical Portal</h1>
+        <ul class="navbar-nav mt-3">
+            <a class="btn btn-primary mb-4" href="{% url 'doctor_signup' %}" role="button">Sign Up as Doctor</a>
+            <a class="btn btn-primary mb-4" href="{% url 'patient_signup' %}" role="button">Sign Up as Patient</a>
+            <a class="btn btn-success" href="{% url 'login' %}" role="button">Login</a>
+        </ul>
+
+</div>
+{% endblock content %}
