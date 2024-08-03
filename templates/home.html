@@ -1,0 +1,60 @@
+{% extends 'blog_base.html' %} {% block title %}Home{% endblock %} 
+
+{% block content %}
+<section id="content" class="s-content">
+    <!-- pageheader -->
+    <div class="s-pageheader">
+        <div class="row">
+            <div class="column large-12">
+                <h2 class="page-title">Latest Articles</h2>
+            </div>
+        </div>
+    </div>
+    <!-- end s-pageheader-->
+
+    <!--  masonry -->
+    <div id="bricks" class="bricks">
+        <div class="masonry">
+            <div class="bricks-wrapper" data-animate-block>
+                <div class="grid-sizer"></div>
+
+                <div class="row">
+                    {% for blog in blogs %}
+
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img
+                                src="{{ blog.image.url }}"
+                                class="card-img-top"
+                                alt="{{ blog.title }}"
+                            />
+                            <div class="card-body">
+                                <div class="entry__meta">
+                                    
+                                    <span class="byline">
+                                        By:{{ blog.author.first_name }}
+                                    </span>
+                                </div>
+                                <h5 class="card-title mt-1">{{ blog.title }}</h5>
+                                <p class="card-text">
+                                    {{ blog.summary|truncatewords:15 }}
+                                </p>
+                                <a
+                                    href="{% url 'blog_view' blog.id %}"
+                                    class="btn btn-primary"
+                                    >Read More</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- end bricks-wrapper -->
+        </div>
+        <!-- end masonry-->
+    </div>
+    <!-- end bricks -->
+</section>
+
+{% endblock content %}

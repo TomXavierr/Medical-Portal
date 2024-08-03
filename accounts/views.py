@@ -7,6 +7,7 @@ from django.views.decorators.cache import cache_control,never_cache
 from django.db import IntegrityError
 from django.views import View
 from django.contrib.auth import get_user_model
+from blogs_app.models import Category, BlogPost
 import re
 from django.conf import settings
 
@@ -135,11 +136,14 @@ def patient_signup_view(request):
 def doctor_dashboard_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
+    
     context = {
         'user' : request.user,
+        'categories': Category.objects.all(),
+        'blogs': BlogPost.objects.filter(is_draft=False),
     }
     
-    return render(request, 'doctor_dashboard.html', context)
+    return render(request, 'home.html', context)
 
 @never_cache
 @login_required(login_url='login')
@@ -148,8 +152,10 @@ def patient_dashboard_view(request):
         return redirect('login')
     context = {
         'user' : request.user,
+        'categories': Category.objects.all(),
+        'blogs': BlogPost.objects.filter(is_draft=False),
     }
-    return render(request, 'patient_dashboard.html', context)
+    return render(request, 'home.html', context)
 
 
 def login_view(request):
@@ -177,6 +183,10 @@ def login_view(request):
 
     return render(request, 'login.html')
 
+def user_profile_view(request):
+    user = request.user
+    
+    return render(request, 'user_profile.html', locals())
 
 def logout_view(request):
     logout(request)

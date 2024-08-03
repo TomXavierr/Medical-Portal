@@ -9,6 +9,7 @@ urlpatterns = [
     path('og-admin/', admin.site.urls),
     path('',home, name='home'),
     path('accounts/',include('accounts.urls')),
+    path('blog/',include('blogs_app.urls')),
     
     path('doctor_dashboard/', doctor_dashboard_view, name='doctor_dashboard'),
     path('patient_dashboard/', patient_dashboard_view, name='patient_dashboard'),
