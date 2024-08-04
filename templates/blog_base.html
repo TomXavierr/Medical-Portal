@@ -19,18 +19,27 @@
 
         <div class="s-header__branding">
             <p class="site-title">
-                <a href="" rel="home">Medical portal</a>
+                Medical portal
             </p>
         </div>
 
         <div class="row s-header__navigation">
 
             <nav class="s-header__nav-wrap">
-
+                
+                
+                    
                 <h3 class="s-header__nav-heading">Navigate to</h3>
 
                 <ul class="s-header__nav">
-                    <li><a href="" title="">Home</a></li>
+                    
+                    {% if user.is_doctor %}
+                    <li><a href="{% url 'doctor_dashboard' %}" title="">Home</a></li>
+                    {% else %}
+                    <li><a href="{% url 'patient_dashboard' %}" title="">Home</a></li>
+                    {% endif %}
+
+                    
                     <li class="has-children">
                         <a href="#0" title="" class="">Categories</a>
                         <ul class="sub-menu">
