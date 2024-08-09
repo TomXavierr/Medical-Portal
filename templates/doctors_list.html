@@ -1,0 +1,58 @@
+{% extends 'blog_base.html' %} {% block content %}
+
+<section id="content" class="s-content">
+  <!-- pageheader -->
+  {% comment %} <div class="s-pageheader"> {% endcomment %}
+    <div class="row">
+      <div class="column">
+        <div class="d-flex justify-content-between">
+
+          <h1 class="mt-0">List of Doctors</h1>
+          <a class="btn btn-primary" href="{% url 'user_appointments' %}">My appointments</a>
+        </div>
+        {% for doctor in doctors %}
+        <div class="col-md-12 mb-4">
+          <div class="card">
+            <div class="row g-0">
+              <div class="col-md-4">
+                {% if doctor.user.profile_picture %}
+                <img
+                  src="{{ doctor.user.profile_picture.url }}"
+                  alt="{{ doctor.user.get_full_name }}"
+                  class="img-fluid rounded-start mb-0"
+                  style="
+                    width: 300px;
+                    height: 300px;
+                    object-fit: cover;
+                    object-position: center;
+                    border-radius: 8px;
+                  "
+                />
+                {% endif %}
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {{ doctor.user.first_name }} {{ doctor.user.last_name }}
+                  </h5>
+                  <p class="card-text">
+                    <strong>Speciality:</strong> {{ doctor.speciality }}
+                  </p>
+                  {% comment %}
+                  <p class="card-text">
+                    <strong>Email:</strong> {{ doctor.user.email }}
+                  </p>
+                  {% endcomment %}
+                  <a href="{% url 'book_appointment' doctor.id %}" class="btn btn--primary">Book Appointment</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,61 @@
+{% extends 'blog_base.html' %} {% block content %}
+<section id="content" class="s-content">
+  <!-- pageheader -->
+  {% comment %}
+  <div class="s-pageheader">
+    {% endcomment %}
+    <div class="row">
+      <div class="column">
+        <h2 class="mt-5">Book your appointment</h2>
+        <div class="flex d-flex ">
+            <h5 class="mt-1 mr-2">Doctor: </h5>
+            <p>{{doctor.user.first_name}}</p>
+        </div>
+        <div class="flex d-flex ">
+            <h5 class="mt-1 mr-2">Speciality: </h5>
+            <p>{{doctor.speciality}}</p>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+
+          <div>
+            <label for="date">Date:</label>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              value="{{ request.POST.date }}"
+            />
+            {% if errors.date %}
+            <div class="invalid-feedback">{{ errors.date }}</div>
+            {% endif %}
+          </div>
+
+          <div>
+            <label for="start_time">Start Time:</label>
+            <input
+              type="time"
+              id="start_time"
+              name="start_time"
+              value="{{ request.POST.start_time }}"
+            />
+            {% if errors.start_time %}
+            <div class="invalid-feedback">{{ errors.start_time }}</div>
+            {% endif %}
+          </div>
+
+          {% if errors.general %}
+          <div class="invalid-feedback">{{ errors.general }}</div>
+          {% endif %}
+          {% if errors.appointment %}
+          <div class="invalid-feedback">{{ errors.appointment }}</div>
+          {% endif %}
+
+
+          <button type="submit">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

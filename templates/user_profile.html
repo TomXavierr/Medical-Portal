@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-md-4 text-center">
                     {% if user.profile_picture %}
-                        <img class="img-fluid mx-auto" src="{{ user.profile_picture.url }}" alt="Profile Picture" style="width: 300px; height: auto " class="img-thumbnail">
+                        <img class="img-fluid rounded-start square-image" src="{{ user.profile_picture.url }}" alt="Profile Picture"  >
                     {% else %}
                         <img src="https://via.placeholder.com/150" alt="Profile Picture" class="img-thumbnail">
                     {% endif %}

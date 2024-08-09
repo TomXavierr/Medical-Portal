@@ -50,7 +50,7 @@ def create_blog_view(request):
             )
             blog.save()
             
-        return redirect('doctor_dashboard')
+        return redirect('my_blogs')
     else:
         categories = Category.objects.all()
         context = {

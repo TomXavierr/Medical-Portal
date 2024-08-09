@@ -8,6 +8,8 @@ from django.db import IntegrityError
 from django.views import View
 from django.contrib.auth import get_user_model
 from blogs_app.models import Category, BlogPost
+from .models import Doctor
+
 import re
 from django.conf import settings
 
@@ -15,13 +17,23 @@ User = get_user_model()
 
 
 def home(request):
+    context = {
+        'categories': Category.objects.all(),
+        'blogs': BlogPost.objects.filter(is_draft=False),
+    }
+    return render(request, 'home.html', context)
+
+def signup_options(request):
     if request.user.is_authenticated:
         if request.user.is_doctor:
-            return redirect('doctor_dashboard')
+            return redirect('home')
         else:
-            return redirect('patient_dashboard')
-        
-    return render(request, 'landingpage.html')
+            return redirect('home')
+    context = {
+        'categories': Category.objects.all(),
+        # 'blogs': BlogPost.objects.filter(is_draft=False),
+    }
+    return render(request, 'signupoptionspage.html', context)
 
 def validate_signup_data(data):
     errors = {}
@@ -53,7 +65,7 @@ def validate_signup_data(data):
             errors['password1'] = 'Password must contain at least one digit.'
         if not re.search(r'[\W_]', password1):
             errors['password1'] = 'Password must contain at least one special character.'
-
+            
     return errors
 
 def handle_profile_picture(user, request):
@@ -65,9 +77,9 @@ def handle_profile_picture(user, request):
 def doctor_signup_view(request):
     if request.user.is_authenticated:
         if request.user.is_doctor:
-            return redirect('doctor_dashboard')
+            return redirect('home')
         else:
-            return redirect('patient_dashboard')
+            return redirect('home')
     
     if request.method == 'POST':
         data = request.POST
@@ -89,8 +101,10 @@ def doctor_signup_view(request):
                 )
                 handle_profile_picture(user, request)
                 # messages.success(request, 'Doctor account created succefully')
+                Doctor.objects.create(user=user, speciality=data['speciality'])
                 login(request, user)
-                return redirect('doctor_dashboard')
+                return redirect('home')
+            
             except IntegrityError:
                 errors['email'] = 'A user with that email or username already exists.'
         return render(request, 'doctor_signup.html', {'errors': errors})
@@ -100,14 +114,16 @@ def doctor_signup_view(request):
 def patient_signup_view(request):
     if request.user.is_authenticated:
         if request.user.is_doctor:
-            return redirect('doctor_dashboard')
+            return redirect('home')
         else:
-            return redirect('patient_dashboard')
+            return redirect('home')
     
     if request.method == 'POST':
         data = request.POST
         errors = validate_signup_data(data)
         
+        print('aanksvn')
+         
         if not errors:
             try:
                 user = User.objects.create_user(
@@ -125,45 +141,44 @@ def patient_signup_view(request):
                 handle_profile_picture(user, request)
                 # messages.success(request, 'Patient account created succefully')
                 login(request, user)
-                return redirect('patient_dashboard')
+                return redirect('home')
+            
             except IntegrityError:
                 errors['email'] = 'A user with that email or username already exists.'
         return render(request, 'patient_signup.html', {'errors': errors})
     return render(request, 'patient_signup.html')
 
-@never_cache
-@login_required(login_url='login')
-def doctor_dashboard_view(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
+# @never_cache
+# @login_required(login_url='login')
+# def doctor_dashboard_view(request):
+#     if not request.user.is_authenticated:
+#         return redirect('login')
     
-    context = {
-        'user' : request.user,
-        'categories': Category.objects.all(),
-        'blogs': BlogPost.objects.filter(is_draft=False),
-    }
+#     context = {
+#         'user' : request.user,
+#         'categories': Category.objects.all(),
+#         'blogs': BlogPost.objects.filter(is_draft=False),
+#     }
     
-    return render(request, 'home.html', context)
+#     return render(request, 'home.html', context)
 
-@never_cache
-@login_required(login_url='login')
-def patient_dashboard_view(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    context = {
-        'user' : request.user,
-        'categories': Category.objects.all(),
-        'blogs': BlogPost.objects.filter(is_draft=False),
-    }
-    return render(request, 'home.html', context)
+# @never_cache
+# @login_required(login_url='login')
+# def patient_dashboard_view(request):
+#     context = {
+#         'user' : request.user,
+#         'categories': Category.objects.all(),
+#         'blogs': BlogPost.objects.filter(is_draft=False),
+#     }
+#     return render(request, 'home.html', context)
 
 
 def login_view(request):
     if request.user.is_authenticated:
         if request.user.is_doctor:
-            return redirect('doctor_dashboard')
+            return redirect('home')
         else:
-            return redirect('patient_dashboard')
+            return redirect('home')
         
     if request.method == 'POST':
         email = request.POST['email']
@@ -175,15 +190,16 @@ def login_view(request):
             print("agda")
             login(request, user)
             if user.is_doctor:
-                return redirect('doctor_dashboard')
+                return redirect('home')
             else:
-                return redirect('patient_dashboard')
+                return redirect('home')
         else:
             messages.error(request, 'Invalid email or password.')
 
     return render(request, 'login.html')
 
 def user_profile_view(request):
+    categories= Category.objects.all()
     user = request.user
     
     return render(request, 'user_profile.html', locals())

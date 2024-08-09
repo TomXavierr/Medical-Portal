@@ -1,0 +1,28 @@
+{% extends 'blog_base.html' %} {% block content %}
+<section id="content" class="s-content">
+  <!-- pageheader -->
+  <div class="s-pageheader">
+    <div class="row">
+      <div class="column">
+        <h2 class="mt-5">Appointment Confirmed</h2>
+        <div class="flex d-flex">
+          <h5 class="mt-1 mr-2">Doctor:</h5>
+          <p>{{appointment.doctor.user.first_name}}</p>
+        </div>
+        <div class="flex d-flex">
+          <h5 class="mt-1 mr-2">Speciality:</h5>
+          <p>{{appointment.speciality}}</p>
+        </div>
+        <div class="flex d-flex">
+          <h5 class="mt-1 mr-2">Date:</h5>
+          <p>{{appointment.date}}</p>
+        </div>
+        <div class="flex d-flex">
+          <h5 class="mt-1 mr-2">Time:</h5>
+          <p>{{appointment.start_time}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

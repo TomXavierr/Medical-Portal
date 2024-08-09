@@ -33,15 +33,12 @@
 
                 <ul class="s-header__nav">
                     
-                    {% if user.is_doctor %}
-                    <li><a href="{% url 'doctor_dashboard' %}" title="">Home</a></li>
-                    {% else %}
-                    <li><a href="{% url 'patient_dashboard' %}" title="">Home</a></li>
-                    {% endif %}
+                    <li><a href="{% url 'home' %}" title="">Home</a></li>
+                 
 
                     
                     <li class="has-children">
-                        <a href="#0" title="" class="">Categories</a>
+                        <a href="" title="" class="">Categories</a>
                         <ul class="sub-menu">
                             {% for category in categories %}
                             <li><a href="{% url 'blogs_list' category.id %}">{{category.name}}</a></li>
@@ -51,14 +48,29 @@
                     </li>
 
                     
-                    {% if user.is_doctor %}
+                    {% if user.is_authenticated and user.is_doctor %}
                     <li><a href="{% url 'create_blog' %}" title="">Create</a></li>
                     {% endif %}
-                    {% if user.is_doctor %}
+
+                    {% if user.is_authenticated and user.is_doctor %}
                     <li><a href="{% url 'my_blogs' %}" title="">My Blogs</a></li>
                     {% endif %}
+                    {% if user.is_authenticated and user.is_doctor %}
+                    <li><a href="{% url 'doctor_appointments' %}" title="">Schedule</a></li>
+                    {% endif %}
+                    {% if user.is_authenticated and user.is_patient %}
+                    <li><a href="{% url 'doctors_list' %}" title="">Doctors</a></li>
+                    {% endif %}
+
                     
+                    {% if user.is_authenticated %}
                     <li><a href="{% url 'profile' %}" title="">Profile</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}" title="">login</a></li>
+                    {% endif %}
+                        
+              
+
         
                 </ul> <!-- end s-header__nav -->
 

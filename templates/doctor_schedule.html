@@ -1,0 +1,39 @@
+{% extends 'blog_base.html' %} {% block content %}
+
+<section id="content" class="s-content">
+  <!-- pageheader -->
+  {% comment %} <div class="s-pageheader"> {% endcomment %}
+    <div class="row">
+      <div class="column">
+        <div class="d-flex justify-content-between">
+          <h1 class="mt-0">My Schedule</h1>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>Patient</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.start_time }}</td>
+                        <td>{{ appointment.patient.get_full_name }}</td>
+                        
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No appointments found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

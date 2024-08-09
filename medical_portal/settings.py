@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
-# settings.py
+import json
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -29,7 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
-    'blogs_app'
+    'blogs_app',
+    'booking_system',
 ]
 
 MIDDLEWARE = [
@@ -85,16 +87,7 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': os.environ.get("DB_NAME"),
-#         'USER': os.environ.get("DB_USER"),
-#         'PASSWORD': os.environ.get("DB_PASSWORD"),
-#         'HOST': os.environ.get("DB_HOST"),
-#         'PORT': os.environ.get("DB_PORT"),
-#     }
-# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -140,9 +133,18 @@ MEDIA_URL   = '/media/'
 MEDIA_ROOT  = os.path.join(BASE_DIR,'media')
 
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.Useraccount'
+
+
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# GOOGLE_CLIENT_SECRET_FILE = os.path.join(BASE_DIR, 'client_secret.json')
+
+
+# GOOGLE_SCOPES = ['https://www.googleapis.com/auth/calendar.events']
+
+
+# GOOGLE_TOKEN_FILE = os.path.join(BASE_DIR, 'token.json')

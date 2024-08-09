@@ -1,0 +1,27 @@
+{% extends 'blog_base.html' %} {% block content %}
+<section id="content" class="s-content">
+  <!-- pageheader -->
+  <div class="s-pageheader">
+    <div class="row">
+      <div class="column">
+        <h1>Cancel Appointment</h1>
+        <p>
+          Are you sure you want to cancel the appointment with Dr. {{ appointment.doctor.user.get_full_name }}
+          <br>
+           on {{ appointment.date }} at
+          {{ appointment.start_time }}?
+        </p>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn--primary">
+            Cancel Appointment
+          </button>
+          <a href="{% url 'user_appointments' %}" class="btn btn-secondary"
+            >Back to My Appointments</a
+          >
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

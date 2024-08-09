@@ -1,6 +1,6 @@
 from  django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-
+from django.conf import settings
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, first_name, last_name, password=None, **extra_fields):
@@ -39,3 +39,14 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+    
+
+class Doctor(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    speciality = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.user.get_full_name()
