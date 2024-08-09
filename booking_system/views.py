@@ -5,7 +5,7 @@ from blogs_app.models import Category
 # from .forms import AppointmentForm
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from .utils.google_calendar import create_google_calendar_event
+# from .utils.google_calendar import create_google_calendar_event
 import datetime
 from django.core.exceptions import PermissionDenied
 
