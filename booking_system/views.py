@@ -5,7 +5,7 @@ from blogs_app.models import Category
 # from .forms import AppointmentForm
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-# from .utils.google_calendar import create_google_calendar_event
+from .utils.google_calendar import create_google_calendar_event
 import datetime
 from django.core.exceptions import PermissionDenied
 
@@ -60,12 +60,12 @@ def book_appointment(request, doctor_id):
                         start_time=time_obj
                     )
 
-                    # summary = f"Appointment with Dr. {doctor.user.get_full_name()}"
-                    # description = f"Speciality: {speciality}\nPatient: {request.user.get_full_name()}"
-                    # start_time_iso = start_datetime.isoformat()
-                    # end_time_iso = end_datetime.isoformat()
-                    # attendees_emails = [request.user.email, doctor.user.email]
-                    # create_google_calendar_event(summary, description, start_time_iso, end_time_iso, attendees_emails)
+                    summary = f"Appointment with Dr. {doctor.user.get_full_name()}"
+                    description = f"Speciality: {speciality}\nPatient: {request.user.get_full_name()}"
+                    start_time_iso = start_datetime.isoformat()
+                    end_time_iso = end_datetime.isoformat()
+                    attendees_emails = [request.user.email, doctor.user.email]
+                    create_google_calendar_event(summary, description, start_time_iso, end_time_iso, attendees_emails)
                     
                     return redirect('appointment_confirmation', appointment_id=appointment.id)
             except IntegrityError:

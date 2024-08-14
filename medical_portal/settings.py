@@ -139,12 +139,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.Useraccount'
 
 
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+GOOGLE_CALENDAR_ID = os.getenv('CAL_ID')
 
-# GOOGLE_CLIENT_SECRET_FILE = os.path.join(BASE_DIR, 'client_secret.json')
-
-
-# GOOGLE_SCOPES = ['https://www.googleapis.com/auth/calendar.events']
-
-
-# GOOGLE_TOKEN_FILE = os.path.join(BASE_DIR, 'token.json')
+GOOGLE_CREDENTIALS_FILE = os.getenv('GOOGLE_CREDENTIALS_FILE')
